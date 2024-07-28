@@ -1,6 +1,6 @@
 # Documentation
 
-This component is not intended to be a replacement for marquee. It is just a component that functions like a marquee and probably will have a lot of problems.
+This component is not intended to be a replacement for marquee. It is just a component that functions like a marquee and will probably have a lot of problems.
 
 To import the code:
 ```html
@@ -10,7 +10,7 @@ To import the code:
 To use the marquee:
 ```html
 <c-marquee>
-  <span slot="text"></span>
+  <span slot="text">Some Text</span>
 </c-marquee>
 ```
 
@@ -31,7 +31,7 @@ Valid options for direction are `left`, `right`, `up` and `down`. Default value 
   <span slot="text">Some Text</span>
 </c-marquee>
 ```
-It is literally the loop duration. Duration attribute takes only milliseconds. As shown in the example above, `5000` means `5 seconds`.
+It is literally the loop duration. Duration attribute takes only milliseconds. As shown in the example above, `5000` means `5 seconds`. Default value for the duration is `5000`.
 
 ### Start Position
 _Not finished yet_
