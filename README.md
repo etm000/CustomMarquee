@@ -4,7 +4,7 @@ This component is not intended to be a replacement for marquee. It is just a com
 
 To import the code:
 ```html
-<script src=""></script>
+<script src="https://etm000.github.io/CustomMarquee/src/index.js"></script>
 ```
 
 To use the marquee:
