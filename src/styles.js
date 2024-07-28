@@ -6,12 +6,10 @@ export const styles = css`
 }
 
 :host {
-  --cmq-width: 100%;
-  --cmq-height: 2em;
   display: block;
   box-sizing: border-box;
-  width: var(--cmq-width);
-  height: var(--cmq-height);
+  width: 100%;
+  height: 2em;
   position: relative;
   overflow: hidden;
 }
