@@ -62,7 +62,31 @@ code > button {
   font-family: inherit;
   font-size: inherit;
   border: none;
-  border: 1px solid white;
+  border: 1px solid currentColor;
   color: white;
   border-radius: 6px;
+  padding: 0;
+}
+
+button {
+  border: none;
+  background-color: #444;
+  color: white;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0.3em 0.6em;
+  cursor: pointer;
+}
+
+button:hover {
+  color: #ddd;
+}
+
+.btn-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5em;
+  column-gap: 0.3em;
 }
