@@ -34,4 +34,9 @@ Valid options for direction are `left`, `right`, `up` and `down`. Default value 
 It is literally the loop duration. Duration attribute takes only milliseconds. As shown in the example above, `5000` means `5 seconds`. Default value for the duration is `5000`.
 
 ### Start Position
-_Not finished yet_
+```html
+<c-marquee start-position="center">
+  <span slot="text">Some Text</span>
+</c-marquee>
+```
+Start Position has only 2 valid options which are `center` and `offset` (or anything except `center`). Default value is `offset`.
