@@ -14,7 +14,7 @@ To use the marquee:
 </c-marquee>
 ```
 
-**Do not forget to put `slot` and adding only one direct child is allowed.**
+**Adding only one direct child is allowed. Do not forget to put `slot` attribute with the value of `text` to the child**
 
 There are some attributes to change the way it works.
 ### Direction
