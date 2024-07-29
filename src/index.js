@@ -12,20 +12,30 @@ export class CustomMarquee extends LitElement {
 
   #movingElem;
   #animation;
+  state;
 
   constructor() {
     super();
     this.direction = 'left';
     this.startPos = 'offset';
     this.duration = 5000;
+    this.state = 'idle';
     this.#animation = 0;
     this.#movingElem = this.querySelector("[slot]");
 
     document.addEventListener('DOMContentLoaded', () => this.resetCoords());
-    this.addEventListener("CustomMarqueeStart", () => this.start());
-    this.addEventListener("CustomMarqueeStop", () => this.stop());
-    this.addEventListener("CustomMarqueeContinue", () => this.continue());
-    this.addEventListener("CustomMarqueeReset", () => this.reset());
+    this.addEventListener("CustomMarqueeStart", () => {
+      if(this.state == 'idle') this.start();
+    });
+    this.addEventListener("CustomMarqueeStop", () => {
+      this.stop();
+    });
+    this.addEventListener("CustomMarqueeContinue", () => {
+      if(this.state == 'idle') this.continue();
+    });
+    this.addEventListener("CustomMarqueeReset", () => {
+      this.reset();
+    });
   }
 
   getDirection() {
@@ -52,6 +62,7 @@ export class CustomMarquee extends LitElement {
   }
 
   start(continueAnimation = false) {
+    this.state = "moving";
     // Formula for calculating how many milliseconds are needed for movingElem to move by 1 pixel
     const speed = this.duration / ((this.getDirection() == 'vertical') ? this.offsetWidth + this.#movingElem.offsetWidth : this.offsetHeight + this.#movingElem.offsetHeight);
     const delta = {
@@ -79,6 +90,7 @@ export class CustomMarquee extends LitElement {
 
   stop() {
     if(!this.#animation) return;
+    this.state = "idle";
     clearInterval(this.#animation);
   }
 
