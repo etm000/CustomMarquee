@@ -7,51 +7,41 @@ export class CustomMarquee extends LitElement {
   static properties = {
     direction: {type: String},
     startPos: {type: String, attribute: "start-position"},
-    duration: {type: Number}
+    duration: {type: Number},
+    delay: {type: Number},
+    state: {type: String, reflect: true}
   };
 
   #movingElem;
   #animation;
-  state;
 
   constructor() {
     super();
     this.direction = 'left';
     this.startPos = 'offset';
     this.duration = 5000;
+    this.delay = 0;
     this.state = 'idle';
     this.#animation = 0;
     this.#movingElem = this.querySelector("[slot]");
 
-    document.addEventListener('DOMContentLoaded', () => this.resetCoords());
-    this.addEventListener("CustomMarqueeStart", () => {
-      if(this.state == 'idle') this.start();
-    });
-    this.addEventListener("CustomMarqueeStop", () => {
-      this.stop();
-    });
-    this.addEventListener("CustomMarqueeContinue", () => {
-      if(this.state == 'idle') this.continue();
-    });
-    this.addEventListener("CustomMarqueeReset", () => {
-      this.reset();
-    });
+    document.addEventListener('DOMContentLoaded', () => this.#resetCoords());
   }
 
-  getDirection() {
+  #getDirection() {
     return (['left', 'right'].includes(this.direction)) ? 'vertical' : 'horizontal';
   }
 
   /**
    * @returns {Array} x and y respectively
    */
-  getStartCoords(continueAnimation = false) {
+  #getStartCoords(continueAnimation = false) {
     if(this.startPos === 'center' && !continueAnimation) return [
       this.offsetWidth / 2 - this.#movingElem.offsetWidth / 2,
       this.offsetHeight / 2 - this.#movingElem.offsetHeight / 2
     ];
 
-    if(this.getDirection() == 'vertical') return [
+    if(this.#getDirection() == 'vertical') return [
       (continueAnimation) ? +this.#movingElem.style.left.slice(0, -2) : -this.#movingElem.offsetWidth,
       this.offsetHeight / 2 - this.#movingElem.offsetHeight / 2
     ];
@@ -61,30 +51,60 @@ export class CustomMarquee extends LitElement {
     ];
   }
 
+  #createDelay(delay) {
+    if(delay) {
+      this.stop();
+      setTimeout(() => this.continue(), delay);
+    }
+  }
+
+  /**
+   * Checks for the boundaries and returns new values accordingly
+   * @param {Number} x
+   * @param {Number} y
+   * @returns {Array} x, y and hitBoundary respectively 
+   */
+  #checkBoundaries(x, y) {
+    const boundaries = {
+      'left': -this.#movingElem.offsetWidth,
+      'right': this.offsetWidth,
+      'up': -this.#movingElem.offsetHeight,
+      'down': this.offsetHeight
+    };
+    let newX = x, newY = y;
+    if(x >= boundaries.right) newX = -this.#movingElem.offsetWidth;
+    else if(x <= boundaries.left) newX = this.offsetWidth;
+    if(y >= boundaries.down) newY = -this.#movingElem.offsetHeight;
+    else if(y <= boundaries.up) newY = this.offsetHeight;
+    return [newX, newY, (newX != x || newY != y)];
+  }
+
   start(continueAnimation = false) {
+    if(this.state !== 'idle') return;
     this.state = "moving";
     // Formula for calculating how many milliseconds are needed for movingElem to move by 1 pixel
-    const speed = this.duration / ((this.getDirection() == 'vertical') ? this.offsetWidth + this.#movingElem.offsetWidth : this.offsetHeight + this.#movingElem.offsetHeight);
+    const speed = this.duration / ((this.#getDirection() == 'vertical') ? this.offsetWidth + this.#movingElem.offsetWidth : this.offsetHeight + this.#movingElem.offsetHeight);
     const delta = {
       x: (this.direction === 'right') - (this.direction === 'left'),
       y: (this.direction === 'down') - (this.direction === 'up')
     };
-    let [x, y] = this.getStartCoords(continueAnimation);
-    this.#animation = setInterval(() => {
+    let [x, y] = this.#getStartCoords(continueAnimation);
+    let hitBoundary = false;
+    this.#animation = setInterval(async () => {
       // Move the movingElem
       x += delta.x, y += delta.y;
       this.#movingElem.style.left = x + "px";
       this.#movingElem.style.top = y + "px";
 
+      if(hitBoundary) this.#createDelay(this.delay);
+      
       // Check boundaries and reset position of the movingElem
-      if(x >= this.offsetWidth) x = -this.#movingElem.offsetWidth;
-      else if(x <= -this.#movingElem.offsetWidth) x = this.offsetWidth;
-      if(y >= this.offsetHeight) y = -this.#movingElem.offsetHeight;
-      else if(y <= -this.#movingElem.offsetHeight) y = this.offsetHeight;
+      [x, y, hitBoundary] = this.#checkBoundaries(x, y);
     }, speed);
   }
 
   continue() {
+    if(this.state !== 'idle') return;
     this.start(true);
   }
 
@@ -94,15 +114,15 @@ export class CustomMarquee extends LitElement {
     clearInterval(this.#animation);
   }
 
-  resetCoords() {
-    const [x, y] = this.getStartCoords();
+  #resetCoords() {
+    const [x, y] = this.#getStartCoords();
     this.#movingElem.style.left = x + "px";
     this.#movingElem.style.top = y + "px";
   }
 
   reset() {
     this.stop();
-    this.resetCoords();
+    this.#resetCoords();
   }
 
   render() {
