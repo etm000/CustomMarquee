@@ -9,13 +9,13 @@ export const styles = css`
   display: block;
   box-sizing: border-box;
   width: 100%;
-  height: 2em;
-  position: relative;
+  height: -moz-fit-content;
+  height: fit-content;
   overflow: hidden;
 }
 
 ::slotted(*) {
   display: block;
-  position: absolute;
+  position: relative;
   white-space: nowrap;
 } `;

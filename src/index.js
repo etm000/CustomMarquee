@@ -21,8 +21,8 @@ export class CustomMarquee extends LitElement {
     this.#animation = 0;
     this.#movingElm = this.querySelector("[slot]");
 
+    this.resetCoords();
     document.addEventListener('DOMContentLoaded', () => {
-      this.style.lineHeight = this.offsetHeight / this.#movingElm.offsetHeight;
       this.start();
     });
   }
@@ -34,7 +34,7 @@ export class CustomMarquee extends LitElement {
   /**
    * @returns {Array} x and y respectively
    */
-  getStartCoords(continueAnimation) {
+  getStartCoords(continueAnimation = false) {
     if(this.startPos === 'center') return [
       this.offsetWidth / 2 - this.#movingElm.offsetWidth / 2,
       this.offsetHeight / 2 - this.#movingElm.offsetHeight / 2
@@ -81,11 +81,15 @@ export class CustomMarquee extends LitElement {
     clearInterval(this.#animation);
   }
 
-  reset() {
-    this.stop();
+  resetCoords() {
     const [x, y] = this.getStartCoords();
     this.#movingElm.style.left = x + "px";
     this.#movingElm.style.top = y + "px";
+  }
+
+  reset() {
+    this.stop();
+    this.resetCoords();
   }
 
   render() {

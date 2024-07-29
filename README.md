@@ -31,7 +31,7 @@ Valid options for direction are `left`, `right`, `up` and `down`. Default value 
   <span slot="text">Some Text</span>
 </c-marquee>
 ```
-It is literally the loop duration. Duration attribute takes only milliseconds. As shown in the example above, `5000` means `5 seconds`. Default value for the duration is `5000`.
+It is literally the loop duration. Duration attribute accepts only milliseconds. As shown in the example above, `5000` means `5 seconds`. Default value for the duration is `5000`.
 
 ### Start Position
 ```html
