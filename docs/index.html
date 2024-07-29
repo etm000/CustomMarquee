@@ -85,13 +85,13 @@ c-marquee > [slot] {
 &lt;/c-marquee&gt;</code></pre>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-    .adding-a-class-so-that-other-elements-dont-get-affected {
+    .adding-a-class-so-that-other-elements-are-not-affected {
       background-color: white;
       font-family: "Bebas Neue";
       color: black;
       box-shadow: inset 0 0 8px 0 black;
     }
-    .adding-a-class-so-that-other-elements-dont-get-affected > [slot] {
+    .adding-a-class-so-that-other-elements-are-not-affected > [slot] {
       font-weight: bold;
       font-size: 2rem;
       padding: 0.3em;
@@ -100,7 +100,7 @@ c-marquee > [slot] {
       backdrop-filter: blur(10px);
     }
   </style>
-  <c-marquee class="adding-a-class-so-that-other-elements-dont-get-affected" duration="7000" start-position="center" direction="right">
+  <c-marquee class="adding-a-class-so-that-other-elements-are-not-affected" duration="7000" start-position="center" direction="right">
     <span slot="text">Styling is the main part</span>
   </c-marquee>
 </body>
