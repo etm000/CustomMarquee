@@ -23,7 +23,7 @@ There are some attributes to change the way it works.
   <span slot="text">Some Text</span>
 </c-marquee>
 ```
-Valid options for direction are `left`, `right`, `up` and `down`. Default value for direction is `left`.
+Valid options for direction are `left`, `right`, `up` and `down`. Default value for the direction is `left`.
 
 ### Duration
 ```html
