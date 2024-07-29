@@ -16,14 +16,12 @@ export class CustomMarquee extends LitElement {
   constructor() {
     super();
     this.direction = 'left';
-    this.startPos = 'left';
+    this.startPos = 'offset';
     this.duration = 5000;
     this.#animation = 0;
     this.#movingElm = this.querySelector("[slot]");
 
     document.addEventListener('DOMContentLoaded', () => {
-      if(this.getDirection() == 'vertical') this.#movingElm.style.left = -this.#movingElm.offsetWidth + "px";
-      else this.#movingElm.style.top = -this.#movingElm.offsetHeight + "px";
       this.style.lineHeight = this.offsetHeight / this.#movingElm.offsetHeight;
       this.start();
     });
@@ -33,24 +31,49 @@ export class CustomMarquee extends LitElement {
     return (['left', 'right'].includes(this.direction)) ? 'vertical' : 'horizontal';
   }
 
-  start() {
+  /**
+   * @returns {Array} x and y respectively
+   */
+  getStartCoords(continueAnimation) {
+    if(this.startPos === 'center') return [
+      this.offsetWidth / 2 - this.#movingElm.offsetWidth / 2,
+      this.offsetHeight / 2 - this.#movingElm.offsetHeight / 2
+    ];
+
+    if(this.getDirection() == 'vertical') return [
+      (continueAnimation) ? this.#movingElm.offsetLeft : -this.#movingElm.offsetWidth,
+      this.offsetHeight / 2 - this.#movingElm.offsetHeight / 2
+    ];
+    else return [
+      this.offsetWidth / 2 - this.#movingElm.offsetWidth / 2,
+      (continueAnimation) ? this.#movingElm.offsetTop : -this.#movingElm.offsetHeight
+    ];
+  }
+
+  start(continueAnimation = false) {
+    // Formula for calculating how many milliseconds are needed for movingElm to move by 1 pixel
     const speed = this.duration / ((this.getDirection() == 'vertical') ? this.offsetWidth + this.#movingElm.offsetWidth : this.offsetHeight + this.#movingElm.offsetHeight);
     const delta = {
       x: (this.direction === 'right') - (this.direction === 'left'),
       y: (this.direction === 'down') - (this.direction === 'up')
     };
-    let x, y;
-    if(this.getDirection() == 'vertical') x = this.#movingElm.offsetLeft, y = this.offsetHeight / 2 - this.#movingElm.offsetHeight / 2;
-    else x = this.offsetWidth / 2 - this.#movingElm.offsetWidth / 2, y = this.#movingElm.offsetTop;
+    let [x, y] = this.getStartCoords(continueAnimation);
     this.#animation = setInterval(() => {
+      // Move the movingElm
       x += delta.x, y += delta.y;
       this.#movingElm.style.left = x + "px";
       this.#movingElm.style.top = y + "px";
+
+      // Check boundaries and reset position of the movingElm
       if(x >= this.offsetWidth) x = -this.#movingElm.offsetWidth;
       else if(x <= -this.#movingElm.offsetWidth) x = this.offsetWidth;
       if(y >= this.offsetHeight) y = -this.#movingElm.offsetHeight;
       else if(y <= -this.#movingElm.offsetHeight) y = this.offsetHeight;
     }, speed);
+  }
+
+  continue() {
+    this.start(true);
   }
 
   stop() {
@@ -60,8 +83,7 @@ export class CustomMarquee extends LitElement {
 
   reset() {
     this.stop();
-    if(this.getDirection() == 'vertical') x = this.#movingElm.offsetLeft, y = this.offsetHeight / 2 - this.#movingElm.offsetHeight / 2;
-    else x = this.offsetWidth / 2 - this.#movingElm.offsetWidth / 2, y = this.#movingElm.offsetTop;
+    const [x, y] = this.getStartCoords();
     this.#movingElm.style.left = x + "px";
     this.#movingElm.style.top = y + "px";
   }
