@@ -29,7 +29,7 @@ h6 {
 
 pre {
   padding: 1em;
-  background: #444;
+  background: #333;
   color: white;
   box-shadow: 0 0 4px 0 black;
   overflow-y: auto;
@@ -45,12 +45,24 @@ a {
   text-decoration: none;
 }
 
-*[id] {
+a > *[id] {
   cursor: pointer;
 }
 
-*[id]:hover::before {
+a > *[id]:hover::before {
   content: '#';
   color: #999;
   margin-right: 0.5em;
+}
+
+code > button {
+  appearance: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  border: none;
+  border: 1px solid white;
+  color: white;
+  border-radius: 6px;
 }

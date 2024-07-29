@@ -27,12 +27,52 @@
   <c-marquee>
     <span slot="text">Some Text</span>
   </c-marquee>
+  <p>Why isn't it showing anything? Oh, right, we have to start it.</p>
+  <a href="#events"><h2 id="events">Events</h2></a>
+  <p>There are four events to control it: <code>CustomMarqueeStart</code>,
+    <code>CustomMarqueeStop</code>, <code>CustomMarqueeContinue</code> and <code>CustomMarqueeReset</code>. We want to start it so we have to trigger
+    the <code>CustomMarqueeStart</code> event. To do that you will have to add this code:</p>
+  <pre><code>&lt;script&gt;
+document.addEventListener('DOMContentLoaded', () => {
+  const startEvent = new CustomEvent("CustomMarqueeStart");
+  document.querySelector("c-marquee").dispatchEvent(startEvent);
+});
+&lt;/script&gt;</code></pre>
+  <p>To make it work, you will have to wait for document to load everything which is why it is wrapped inside an event listener. 
+    You can trigger it whenever you want. You just have to be sure that document has been loaded before you trigger it. Example:
+  </p>
+  <c-marquee class="first-mq">
+    <span slot="text">Some Text</span>
+  </c-marquee>
+  <button id="start-btn">Start</button>
+  <button id="stop-btn">Stop</button>
+  <button id="continue-btn">Continue</button>
+  <button id="reset-btn">Reset</button>
+  <script>
+    document.querySelector("#start-btn").onclick = () => {
+      const startEvent = new CustomEvent("CustomMarqueeStart");
+      document.querySelector(".first-mq").dispatchEvent(startEvent);
+    };
+    document.querySelector("#stop-btn").onclick = () => {
+      const stopEvent = new CustomEvent("CustomMarqueeStop");
+      document.querySelector(".first-mq").dispatchEvent(stopEvent);
+    };
+    document.querySelector("#continue-btn").onclick = () => {
+      const continueEvent = new CustomEvent("CustomMarqueeContinue");
+      document.querySelector(".first-mq").dispatchEvent(continueEvent);
+    };
+    document.querySelector("#reset-btn").onclick = () => {
+      const resetEvent = new CustomEvent("CustomMarqueeReset");
+      document.querySelector(".first-mq").dispatchEvent(resetEvent);
+    };
+  </script>
   <a href="#duration"><h2 id="duration">Duration</h2></a>
   <p>Is it too fast? You can adjust the single loop duration by adding <code>duration</code> attribute to the component.
     <code>duration</code> attribute accepts milliseconds only.</p>
   <pre><code>&lt;c-marquee duration="10000"&gt;
   &lt;span slot="text"&gt;Some Text&lt;/span&gt;
-&lt;/c-marquee&gt;</code></pre>
+&lt;/c-marquee&gt;
+&lt;script&gt;<button class="expand-btn">...</button>&lt;/script&gt;</code></pre>
   <p>And the result:</p>
   <c-marquee duration="10000">
     <span slot="text">Some Text</span>
@@ -44,7 +84,8 @@
     Default value is <code>left</code>.</p>
   <pre><code>&lt;c-marquee direction="right"&gt;
   &lt;span slot="text"&gt;Some Text&lt;/span&gt;
-&lt;/c-marquee&gt;</code></pre>
+&lt;/c-marquee&gt;
+&lt;script&gt;<button class="expand-btn">...</button>&lt;/script&gt;</code></pre>
   <p>Result:</p>
   <c-marquee direction="right">
     <span slot="text">Some Text</span>
@@ -55,7 +96,8 @@
     When <code>center</code> is used as the value, the text will start from the middle.</p>
   <pre><code>&lt;c-marquee start-position="center"&gt;
   &lt;span slot="text"&gt;Some Text&lt;/span&gt;
-&lt;/c-marquee&gt;</code></pre>
+&lt;/c-marquee&gt;
+&lt;script&gt;<button class="expand-btn">...</button>&lt;/script&gt;</code></pre>
   <p>Result of the code (don't forget to reload the page): </p>
   <c-marquee start-position="center">
     <span slot="text">Some Text</span>
@@ -83,7 +125,8 @@ c-marquee > [slot] {
 &lt;/style&gt;
 &lt;c-marquee duration="7000" start-position="center" direction="right"&gt;
   &lt;span slot="text"&gt;Styling is the main part&lt;/span&gt;
-&lt;/c-marquee&gt;</code></pre>
+&lt;/c-marquee&gt;
+&lt;script&gt;<button class="expand-btn">...</button>&lt;/script&gt;</code></pre>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
     .adding-a-class-so-that-other-elements-are-not-affected {
@@ -106,9 +149,31 @@ c-marquee > [slot] {
   </c-marquee>
 </body>
 <script>
+  // To start all marquees
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('c-marquee').forEach((elem, index) => {
+      if(index > 1) {
+        elem.dispatchEvent(new CustomEvent("CustomMarqueeStart"));
+      }
+    });
+  });
+  // Website stuff
   if(window.location.hash !== '') {
     document.querySelector(`a[href='${window.location.hash}']`).scrollIntoView({ behavior: "smooth" });
   }
+  document.querySelectorAll(".expand-btn").forEach(elem => {
+    elem.onclick = () => {
+      elem.outerHTML = `
+document.addEventListener('DOMContentLoaded', () => {
+  const startEvent = new CustomEvent("CustomMarqueeStart");
+  document.querySelector("c-marquee").dispatchEvent(startEvent);
+});
+`;
+      elem.setAttribute("disabled", true);
+      elem.style.border = "none";
+      elem.style.cursor = "text";
+    }
+  });
 </script>
 <script type="module" src="../src/index.js"></script>
 </html>

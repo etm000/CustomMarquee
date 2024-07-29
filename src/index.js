@@ -10,7 +10,7 @@ export class CustomMarquee extends LitElement {
     duration: {type: Number}
   };
 
-  #movingElm;
+  #movingElem;
   #animation;
 
   constructor() {
@@ -19,12 +19,13 @@ export class CustomMarquee extends LitElement {
     this.startPos = 'offset';
     this.duration = 5000;
     this.#animation = 0;
-    this.#movingElm = this.querySelector("[slot]");
+    this.#movingElem = this.querySelector("[slot]");
 
-    this.resetCoords();
-    document.addEventListener('DOMContentLoaded', () => {
-      this.start();
-    });
+    document.addEventListener('DOMContentLoaded', () => this.resetCoords());
+    this.addEventListener("CustomMarqueeStart", () => this.start());
+    this.addEventListener("CustomMarqueeStop", () => this.stop());
+    this.addEventListener("CustomMarqueeContinue", () => this.continue());
+    this.addEventListener("CustomMarqueeReset", () => this.reset());
   }
 
   getDirection() {
@@ -35,40 +36,40 @@ export class CustomMarquee extends LitElement {
    * @returns {Array} x and y respectively
    */
   getStartCoords(continueAnimation = false) {
-    if(this.startPos === 'center') return [
-      this.offsetWidth / 2 - this.#movingElm.offsetWidth / 2,
-      this.offsetHeight / 2 - this.#movingElm.offsetHeight / 2
+    if(this.startPos === 'center' && !continueAnimation) return [
+      this.offsetWidth / 2 - this.#movingElem.offsetWidth / 2,
+      this.offsetHeight / 2 - this.#movingElem.offsetHeight / 2
     ];
 
     if(this.getDirection() == 'vertical') return [
-      (continueAnimation) ? this.#movingElm.offsetLeft : -this.#movingElm.offsetWidth,
-      this.offsetHeight / 2 - this.#movingElm.offsetHeight / 2
+      (continueAnimation) ? +this.#movingElem.style.left.slice(0, -2) : -this.#movingElem.offsetWidth,
+      this.offsetHeight / 2 - this.#movingElem.offsetHeight / 2
     ];
     else return [
-      this.offsetWidth / 2 - this.#movingElm.offsetWidth / 2,
-      (continueAnimation) ? this.#movingElm.offsetTop : -this.#movingElm.offsetHeight
+      this.offsetWidth / 2 - this.#movingElem.offsetWidth / 2,
+      (continueAnimation) ? +this.#movingElem.style.top.slice(0, -2) : -this.#movingElem.offsetHeight
     ];
   }
 
   start(continueAnimation = false) {
-    // Formula for calculating how many milliseconds are needed for movingElm to move by 1 pixel
-    const speed = this.duration / ((this.getDirection() == 'vertical') ? this.offsetWidth + this.#movingElm.offsetWidth : this.offsetHeight + this.#movingElm.offsetHeight);
+    // Formula for calculating how many milliseconds are needed for movingElem to move by 1 pixel
+    const speed = this.duration / ((this.getDirection() == 'vertical') ? this.offsetWidth + this.#movingElem.offsetWidth : this.offsetHeight + this.#movingElem.offsetHeight);
     const delta = {
       x: (this.direction === 'right') - (this.direction === 'left'),
       y: (this.direction === 'down') - (this.direction === 'up')
     };
     let [x, y] = this.getStartCoords(continueAnimation);
     this.#animation = setInterval(() => {
-      // Move the movingElm
+      // Move the movingElem
       x += delta.x, y += delta.y;
-      this.#movingElm.style.left = x + "px";
-      this.#movingElm.style.top = y + "px";
+      this.#movingElem.style.left = x + "px";
+      this.#movingElem.style.top = y + "px";
 
-      // Check boundaries and reset position of the movingElm
-      if(x >= this.offsetWidth) x = -this.#movingElm.offsetWidth;
-      else if(x <= -this.#movingElm.offsetWidth) x = this.offsetWidth;
-      if(y >= this.offsetHeight) y = -this.#movingElm.offsetHeight;
-      else if(y <= -this.#movingElm.offsetHeight) y = this.offsetHeight;
+      // Check boundaries and reset position of the movingElem
+      if(x >= this.offsetWidth) x = -this.#movingElem.offsetWidth;
+      else if(x <= -this.#movingElem.offsetWidth) x = this.offsetWidth;
+      if(y >= this.offsetHeight) y = -this.#movingElem.offsetHeight;
+      else if(y <= -this.#movingElem.offsetHeight) y = this.offsetHeight;
     }, speed);
   }
 
@@ -83,8 +84,8 @@ export class CustomMarquee extends LitElement {
 
   resetCoords() {
     const [x, y] = this.getStartCoords();
-    this.#movingElm.style.left = x + "px";
-    this.#movingElm.style.top = y + "px";
+    this.#movingElem.style.left = x + "px";
+    this.#movingElem.style.top = y + "px";
   }
 
   reset() {
