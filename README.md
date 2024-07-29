@@ -1,6 +1,6 @@
 # Documentation
 
-This component is not intended to be a replacement for marquee. It is just a component that functions like a marquee and will probably have a lot of problems.
+This component is not intended to be a replacement for marquee. It is just a component that functions like a marquee and will probably have a lot of problems. 
 
 To import the code:
 ```html

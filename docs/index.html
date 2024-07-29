@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CustomMarquee Documentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <h1 class="title">Documentation</h1>
+  <a href="#at-first"><h2 id="at-first">At first</h2></a>
+  <p>Add this line to your website</p>
+  <pre><code>&lt;script type="module" src="https://etm000.github.io/CustomMarquee/src/index.js"&gt;&lt;/script&gt;</code></pre>
+  <a href="#usage"><h2 id="usage">Usage</h2></a>
+  <p>To use the <code>CustomMarquee</code> component, you will have to add the <code>c-marquee</code> element into the body.</p>
+  <pre><code>&lt;c-marquee&gt;&lt;/c-marquee&gt;</code></pre>
+  <p>Next, add a single element into the component. Any inline element will work.
+    If you want to add a block element you will have to change it's display value to <code>inline-block</code>.</p>
+  <pre><code>&lt;c-marquee&gt;
+  &lt;span slot="text"&gt;Some Text&lt;/span&gt;
+&lt;/c-marquee&gt;</code></pre>
+  <p><b>As shown in the example above, you have to add <code>slot</code> attribute with the value of <code>text</code>.</b></p>
+  <p>The result of the code above:</p>
+  <c-marquee>
+    <span slot="text">Some Text</span>
+  </c-marquee>
+  <a href="#duration"><h2 id="duration">Duration</h2></a>
+  <p>Is it too fast? You can adjust the single loop duration by adding <code>duration</code> attribute to the component.
+    <code>duration</code> attribute accepts milliseconds only.</p>
+  <pre><code>&lt;c-marquee duration="10000"&gt;
+  &lt;span slot="text"&gt;Some Text&lt;/span&gt;
+&lt;/c-marquee&gt;</code></pre>
+  <p>And the result:</p>
+  <c-marquee duration="10000">
+    <span slot="text">Some Text</span>
+  </c-marquee>
+  <p>Way better. If you don't add <code>duration</code>, it will use <code>5000</code> milliseconds as the default value.</p>
+  <a href="#direction"><h2 id="direction">Direction</h2></a>
+  <p>To direct the text to move in other directions, you will have to use <code>direction</code> attribute.
+    The <code>direction</code> attribute currently has four values: <code>left</code>, <code>right</code>, <code>up</code> and <code>down</code>.
+    Default value is <code>left</code>.</p>
+  <pre><code>&lt;c-marquee direction="right"&gt;
+  &lt;span slot="text"&gt;Some Text&lt;/span&gt;
+&lt;/c-marquee&gt;</code></pre>
+  <p>Result:</p>
+  <c-marquee direction="right">
+    <span slot="text">Some Text</span>
+  </c-marquee>
+  <a href="#start-pos"><h2 id="start-pos">Start Position</h2></a>
+  <p>The start position is defined via the <code>start-position</code> attribute. There are only two values: <code>offset</code> and <code>center</code>.
+    <code>offset</code> is the default value and it will move the text out of the sight before text starts moving.
+    When <code>center</code> is used as the value, the text will start from the middle.</p>
+  <pre><code>&lt;c-marquee start-position="center"&gt;
+  &lt;span slot="text"&gt;Some Text&lt;/span&gt;
+&lt;/c-marquee&gt;</code></pre>
+  <p>Result of the code (don't forget to reload the page): </p>
+  <c-marquee start-position="center">
+    <span slot="text">Some Text</span>
+  </c-marquee>
+  <a href="#styling"><h2 id="styling">Styling</h2></a>
+  <p>Styling is the main part. It is actually not that difficult.</p>
+  <pre><code>&lt;style&gt;
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+c-marquee {
+  background-color: white;
+  font-family: "Bebas Neue";
+  color: black;
+  box-shadow: inset 0 0 8px 0 black;
+}
+
+c-marquee > [slot] {
+  font-weight: bold;
+  font-size: 2rem;
+  padding: 0.3em;
+  box-shadow: 0 0 4px 0 black;
+  background-color: #999;
+}
+&lt;c-marquee duration="7000" start-position="center" direction="right"&gt;
+  &lt;span slot="text"&gt;Styling is the main part&lt;/span&gt;
+&lt;/c-marquee&gt;</code></pre>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+    .adding-a-class-so-that-other-elements-dont-get-affected {
+      background-color: white;
+      font-family: "Bebas Neue";
+      color: black;
+      box-shadow: inset 0 0 8px 0 black;
+    }
+    .adding-a-class-so-that-other-elements-dont-get-affected > [slot] {
+      font-weight: bold;
+      font-size: 2rem;
+      padding: 0.3em;
+      box-shadow: 0 0 4px 0 black;
+      background-color: #999;
+    }
+  </style>
+  <c-marquee class="adding-a-class-so-that-other-elements-dont-get-affected" duration="7000" start-position="center" direction="right">
+    <span slot="text">Styling is the main part</span>
+  </c-marquee>
+</body>
+<script>
+  if(window.location.hash !== '') {
+    document.querySelector(`a[href='${window.location.hash}']`).scrollIntoView({ behavior: "smooth" });
+  }
+</script>
+<script type="module" src="../src/index.js"></script>
+</html>

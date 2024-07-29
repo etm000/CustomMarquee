@@ -15,7 +15,7 @@ export const styles = css`
 }
 
 ::slotted(*) {
-  display: block;
+  display: inline-block;
   position: relative;
   white-space: nowrap;
 } `;

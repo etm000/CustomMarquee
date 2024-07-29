@@ -1,0 +1,56 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  width: clamp(20vw, 100%, 55vw);
+  padding: 1em;
+  margin: 1em auto;
+  color: black;
+}
+
+c-marquee {
+  font-family: serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Ubuntu", sans-serif;
+  font-weight: bold;
+  text-align: center;
+  margin: 1em 0 0.5em 0;
+}
+
+pre {
+  padding: 1em;
+  background: #444;
+  color: white;
+  box-shadow: 0 0 4px 0 black;
+  overflow-y: auto;
+  margin: 1em 0;
+}
+
+code {
+  font-size: 1.2em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+*[id] {
+  cursor: pointer;
+}
+
+*[id]:hover::before {
+  content: '#';
+  color: #999;
+  margin-right: 0.5em;
+}
