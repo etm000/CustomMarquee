@@ -34,20 +34,22 @@ export class CustomMarquee extends LitElement {
   }
 
   start() {
-    const speed = this.duration / (this.offsetWidth + this.#movingElm.offsetWidth);
+    const speed = this.duration / ((this.getDirection() == 'vertical') ? this.offsetWidth + this.#movingElm.offsetWidth : this.offsetHeight + this.#movingElm.offsetHeight);
     const delta = {
       x: (this.direction === 'right') - (this.direction === 'left'),
       y: (this.direction === 'down') - (this.direction === 'up')
     };
     let x, y;
     if(this.getDirection() == 'vertical') x = this.#movingElm.offsetLeft, y = this.offsetHeight / 2 - this.#movingElm.offsetHeight / 2;
-    else y = this.offsetWidth / 2 - this.#movingElm.offsetHeight / 2, y = this.#movingElm.offsetTop;
+    else x = this.offsetWidth / 2 - this.#movingElm.offsetWidth / 2, y = this.#movingElm.offsetTop;
     this.#animation = setInterval(() => {
       x += delta.x, y += delta.y;
       this.#movingElm.style.left = x + "px";
       this.#movingElm.style.top = y + "px";
       if(x >= this.offsetWidth) x = -this.#movingElm.offsetWidth;
+      else if(x <= -this.#movingElm.offsetWidth) x = this.offsetWidth;
       if(y >= this.offsetHeight) y = -this.#movingElm.offsetHeight;
+      else if(y <= -this.#movingElm.offsetHeight) y = this.offsetHeight;
     }, speed);
   }
 
@@ -59,7 +61,7 @@ export class CustomMarquee extends LitElement {
   reset() {
     this.stop();
     if(this.getDirection() == 'vertical') x = this.#movingElm.offsetLeft, y = this.offsetHeight / 2 - this.#movingElm.offsetHeight / 2;
-    else y = this.offsetWidth / 2 - this.#movingElm.offsetHeight / 2, y = this.#movingElm.offsetTop;
+    else x = this.offsetWidth / 2 - this.#movingElm.offsetWidth / 2, y = this.#movingElm.offsetTop;
     this.#movingElm.style.left = x + "px";
     this.#movingElm.style.top = y + "px";
   }
