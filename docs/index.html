@@ -17,15 +17,15 @@
   <a href="#usage"><h2 id="usage">Usage</h2></a>
   <p>To use the <code>CustomMarquee</code> component, you will have to add the <code>c-marquee</code> element into the body.</p>
   <pre><code>&lt;c-marquee&gt;&lt;/c-marquee&gt;</code></pre>
-  <p>Next, add a single element into the component. Any inline element will work.
-    If you want to add a block element you will have to change it's display value to <code>inline-block</code>.</p>
+  <p>Next, add a single element into the component. You can add multiple elements if you want, but there should be one direct child of the
+    <code>c-marquee</code> element. The direct child should have fixed width or it can be an inline element.</p>
   <pre><code>&lt;c-marquee&gt;
-  &lt;span slot="text"&gt;Some Text&lt;/span&gt;
+  &lt;span slot="moving-element"&gt;Some Text&lt;/span&gt;
 &lt;/c-marquee&gt;</code></pre>
-  <p><b>As shown in the example above, you have to add <code>slot</code> attribute with the value of <code>text</code>.</b></p>
+  <p><b>As shown in the example above, you have to add <code>slot</code> attribute with the value of <code>moving-element</code>.</b></p>
   <p>The result of the code above:</p>
   <c-marquee class="first-mq">
-    <span slot="text">Some Text</span>
+    <span slot="moving-element">Some Text</span>
   </c-marquee>
   <p>Why isn't it showing anything? Oh, right, we have to start it.</p>
   <a href="#functions"><h2 id="functions">Functions</h2></a>
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <button id="continue-btn">Continue</button>
     <button id="reset-btn">Reset</button>
     <c-marquee class="second-mq">
-      <span slot="text">Some Text</span>
+      <span slot="moving-element">Some Text</span>
     </c-marquee>
   </div>
   <p id="cur-state" style="margin-bottom: 0.5em;">Current state: idle</p>
@@ -96,7 +96,7 @@ c-marquee > [slot] {
 &lt;/style&gt;
 
 &lt;c-marquee&gt;
-  &lt;span slot="text"&gt;Some Text&lt;/span&gt;
+  &lt;span slot="moving-element"&gt;Some Text&lt;/span&gt;
 &lt;/c-marquee&gt;
 
 &lt;script&gt;<button class="expand-js-btn">...</button>&lt;/script&gt;</code></pre>
@@ -112,7 +112,7 @@ c-marquee > [slot] {
     }
   </style>
   <c-marquee>
-    <span slot="text">Some Text</span>
+    <span slot="moving-element">Some Text</span>
   </c-marquee>
   <a href="#duration"><h2 id="duration">Duration</h2></a>
   <p>Is it too fast? You can adjust the duration of each loop by adding <code>duration</code> attribute to the component.
@@ -120,13 +120,13 @@ c-marquee > [slot] {
   <pre><code>&lt;style&gt;<button class="expand-css-btn">...</button>&lt;/style&gt;
 
 &lt;c-marquee duration="10000"&gt;
-  &lt;span slot="text"&gt;Some Text&lt;/span&gt;
+  &lt;span slot="moving-element"&gt;Some Text&lt;/span&gt;
 &lt;/c-marquee&gt;
 
 &lt;script&gt;<button class="expand-js-btn">...</button>&lt;/script&gt;</code></pre>
   <p>And the result:</p>
   <c-marquee duration="10000">
-    <span slot="text">Some Text</span>
+    <span slot="moving-element">Some Text</span>
   </c-marquee>
   <p>Way better. If you don't add <code>duration</code>, it will use <code>5000</code> milliseconds as the default value.</p>
   <a href="#direction"><h2 id="direction">Direction</h2></a>
@@ -136,13 +136,13 @@ c-marquee > [slot] {
   <pre><code>&lt;style&gt;<button class="expand-css-btn">...</button>&lt;/style&gt;
 
 &lt;c-marquee direction="right"&gt;
-  &lt;span slot="text"&gt;Some Text&lt;/span&gt;
+  &lt;span slot="moving-element"&gt;Some Text&lt;/span&gt;
 &lt;/c-marquee&gt;
 
 &lt;script&gt;<button class="expand-js-btn">...</button>&lt;/script&gt;</code></pre>
   <p>Result:</p>
   <c-marquee direction="right">
-    <span slot="text">Some Text</span>
+    <span slot="moving-element">Some Text</span>
   </c-marquee>
   <a href="#start-pos"><h2 id="start-pos">Start Position</h2></a>
   <p>The start position is defined via the <code>start-position</code> attribute. There are only two values: <code>offset</code> and <code>center</code>.
@@ -151,28 +151,28 @@ c-marquee > [slot] {
   <pre><code>&lt;style&gt;<button class="expand-css-btn">...</button>&lt;/style&gt;
 
 &lt;c-marquee start-position="center"&gt;
-  &lt;span slot="text"&gt;Some Text&lt;/span&gt;
+  &lt;span slot="moving-element"&gt;Some Text&lt;/span&gt;
 &lt;/c-marquee&gt;
 
 &lt;script&gt;<button class="expand-js-btn">...</button>&lt;/script&gt;</code></pre>
   <p>Result of the code (don't forget to reload the page): </p>
   <c-marquee start-position="center">
-    <span slot="text">Some Text</span>
+    <span slot="moving-element">Some Text</span>
   </c-marquee>
   <a href="#delay"><h2 id="delay">Delay</h2></a>
   <p>It is possible to create a delay between each loop by using the <code>delay</code> attribute. Value should be in milliseconds and default value is 0.</p>
   <pre><code>&lt;style&gt;<button class="expand-css-btn">...</button>&lt;/style&gt;
 
 &lt;c-marquee delay="3000"&gt;
-  &lt;span slot="text"&gt;Some Text&lt;/span&gt;
+  &lt;span slot="moving-element"&gt;Some Text&lt;/span&gt;
 &lt;/c-marquee&gt;
 
 &lt;script&gt;<button class="expand-js-btn">...</button>&lt;/script&gt;</code></pre>
   <c-marquee delay="3000">
-    <span slot="text">Some Text</span>
+    <span slot="moving-element">Some Text</span>
   </c-marquee>
   <a href="#examples"><h2 id="examples">Examples</h2></a>
-  <p>Examples to demonstrate the power of <code>CustomMarquee</code>.</p>
+  <p>Examples to demonstrate the power of <code>CustomMarquee</code>. An example with custom styling:</p>
   <pre><code>&lt;style&gt;
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 c-marquee {
@@ -193,7 +193,7 @@ c-marquee > [slot] {
 &lt;/style&gt;
 
 &lt;c-marquee duration="7000" start-position="center" direction="right"&gt;
-  &lt;span slot="text"&gt;Styling is the main part&lt;/span&gt;
+  &lt;span slot="moving-element"&gt;Styling is the main part&lt;/span&gt;
 &lt;/c-marquee&gt;
 
 &lt;script&gt;<button class="expand-js-btn">...</button>&lt;/script&gt;</code></pre>
@@ -215,9 +215,9 @@ c-marquee > [slot] {
     }
   </style>
   <c-marquee class="adding-a-class-so-that-other-elements-are-not-affected" duration="7000" start-position="center" direction="right">
-    <span slot="text">Styling is the main part</span>
+    <span slot="moving-element">Styling is the main part</span>
   </c-marquee>
-  <p>A progress bar made by using JavaScript.</p>
+  <p>A progress bar made by using JavaScript:</p>
   <pre><code>&lt;style&gt;<button class="expand-css-btn">...</button>
 c-marquee > [slot] {
   font-family: monospace;
@@ -225,7 +225,7 @@ c-marquee > [slot] {
 &lt;/style&gt;
 
 &lt;c-marquee duration="10000" direction="right"&gt;
-  &lt;span slot="text"&gt;Current progress: &amp;nbsp;&amp;nbsp;0%&lt;/span&gt;
+  &lt;span slot="moving-element"&gt;Current progress: &amp;nbsp;&amp;nbsp;0%&lt;/span&gt;
 &lt;/c-marquee&gt;
 
 &lt;script&gt;
@@ -251,7 +251,7 @@ let f = setInterval(() => {
     }
   </style>
   <c-marquee id="example-2" duration="10000" direction="right">
-    <span slot="text">Current progress: &nbsp;&nbsp;0%</span>
+    <span slot="moving-element">Current progress: &nbsp;&nbsp;0%</span>
   </c-marquee>
   <script>
     let example2TextElem = document.querySelector("#example-2 > [slot]");

@@ -146,7 +146,7 @@ export class CustomMarquee extends LitElement {
 
   render() {
     return html`
-      <slot name="text">ENTER TEXT</slot>
+      <slot name="moving-element">ADD ELEMENT</slot>
     `;
   }
 }
