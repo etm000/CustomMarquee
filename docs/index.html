@@ -11,7 +11,7 @@
 </head>
 <body>
   <h1 class="title">Documentation</h1>
-  <a href="#at-first"><h2 id="at-first">At first</h2></a>
+  <a href="#installation"><h2 id="installation">Installation</h2></a>
   <p>Add this line to your website</p>
   <pre><code>&lt;script type="module" src="https://etm000.github.io/CustomMarquee/src/index.js"&gt;&lt;/script&gt;</code></pre>
   <a href="#usage"><h2 id="usage">Usage</h2></a>
@@ -78,6 +78,7 @@ document.querySelector("c-marquee").getAttribute("state");
 // Property
 document.querySelector("c-marquee").state;
 &lt;/script&gt;</code></pre>
+  <p><b><code>state</code> property is read-only. If you try to change the value, it will throw '<code>TypeError: "state" is read-only.</code>' error.</b></p>
   <a href="#duration"><h2 id="duration">Duration</h2></a>
   <p>Is it too fast? You can adjust the duration of each loop by adding <code>duration</code> attribute to the component.
     <code>duration</code> attribute accepts milliseconds only.</p>

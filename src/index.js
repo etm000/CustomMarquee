@@ -9,11 +9,28 @@ export class CustomMarquee extends LitElement {
     startPos: {type: String, attribute: "start-position"},
     duration: {type: Number},
     delay: {type: Number},
-    state: {type: String, reflect: true}
   };
 
   #movingElem;
   #animation;
+  #_state;
+
+  set #state(val) {
+    this.#_state = val;
+    this.setAttribute('state', this.#_state);
+  }
+
+  get #state() {
+    return this.#_state;
+  }
+
+  set state(val) {
+    throw new TypeError("\"state\" is read-only.");
+  }
+
+  get state() {
+    return this.#_state;
+  }
 
   constructor() {
     super();
@@ -21,7 +38,7 @@ export class CustomMarquee extends LitElement {
     this.startPos = 'offset';
     this.duration = 5000;
     this.delay = 0;
-    this.state = 'idle';
+    this.#state = 'idle';
     this.#animation = 0;
     this.#movingElem = this.querySelector("[slot]");
 
@@ -72,16 +89,18 @@ export class CustomMarquee extends LitElement {
       'down': this.offsetHeight
     };
     let newX = x, newY = y;
-    if(x >= boundaries.right) newX = -this.#movingElem.offsetWidth;
-    else if(x <= boundaries.left) newX = this.offsetWidth;
-    if(y >= boundaries.down) newY = -this.#movingElem.offsetHeight;
-    else if(y <= boundaries.up) newY = this.offsetHeight;
+
+    if(x >= boundaries.right && this.direction === 'right') newX = -this.#movingElem.offsetWidth - 1;
+    else if(x <= boundaries.left && this.direction === 'left') newX = this.offsetWidth + 1;
+    if(y >= boundaries.down && this.direction === 'down') newY = -this.#movingElem.offsetHeight - 1;
+    else if(y <= boundaries.up && this.direction === 'up') newY = this.offsetHeight + 1;
+
     return [newX, newY, (newX != x || newY != y)];
   }
 
   start(continueAnimation = false) {
-    if(this.state !== 'idle') return;
-    this.state = "moving";
+    if(this.#state !== 'idle') return;
+    this.#state = "moving";
     // Formula for calculating how many milliseconds are needed for movingElem to move by 1 pixel
     const speed = this.duration / ((this.#getDirection() == 'vertical') ? this.offsetWidth + this.#movingElem.offsetWidth : this.offsetHeight + this.#movingElem.offsetHeight);
     const delta = {
@@ -104,13 +123,13 @@ export class CustomMarquee extends LitElement {
   }
 
   continue() {
-    if(this.state !== 'idle') return;
+    if(this.#state !== 'idle') return;
     this.start(true);
   }
 
   stop() {
     if(!this.#animation) return;
-    this.state = "idle";
+    this.#state = "idle";
     clearInterval(this.#animation);
   }
 
