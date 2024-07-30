@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
   <p id="cur-state" style="margin-bottom: 0.5em;">Current state: idle</p>
   <script>
     function getState() {
-      document.querySelector("#cur-state").innerText = "Current state: " + document.querySelector(".first-mq").state;
+      document.querySelector("#cur-state").innerText = "Current state: " + document.querySelector(".second-mq").state;
     }
     document.querySelector("#start-btn").onclick = () => {
       document.querySelector(".second-mq").start();
