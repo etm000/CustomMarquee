@@ -24,7 +24,7 @@
 &lt;/c-marquee&gt;</code></pre>
   <p><b>As shown in the example above, you have to add <code>slot</code> attribute with the value of <code>text</code>.</b></p>
   <p>The result of the code above:</p>
-  <c-marquee>
+  <c-marquee class="first-mq">
     <span slot="text">Some Text</span>
   </c-marquee>
   <p>Why isn't it showing anything? Oh, right, we have to start it.</p>
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <button id="stop-btn">Stop</button>
     <button id="continue-btn">Continue</button>
     <button id="reset-btn">Reset</button>
-    <c-marquee class="first-mq">
+    <c-marquee class="second-mq">
       <span slot="text">Some Text</span>
     </c-marquee>
   </div>
@@ -55,19 +55,19 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelector("#cur-state").innerText = "Current state: " + document.querySelector(".first-mq").state;
     }
     document.querySelector("#start-btn").onclick = () => {
-      document.querySelector(".first-mq").start();
+      document.querySelector(".second-mq").start();
       getState();
     };
     document.querySelector("#stop-btn").onclick = () => {
-      document.querySelector(".first-mq").stop();
+      document.querySelector(".second-mq").stop();
       getState();
     };
     document.querySelector("#continue-btn").onclick = () => {
-      document.querySelector(".first-mq").continue();
+      document.querySelector(".second-mq").continue();
       getState();
     };
     document.querySelector("#reset-btn").onclick = () => {
-      document.querySelector(".first-mq").reset();
+      document.querySelector(".second-mq").reset();
       getState();
     };
   </script>
@@ -79,13 +79,51 @@ document.querySelector("c-marquee").getAttribute("state");
 document.querySelector("c-marquee").state;
 &lt;/script&gt;</code></pre>
   <p><b><code>state</code> property is read-only. If you try to change the value, it will throw '<code>TypeError: "state" is read-only.</code>' error.</b></p>
+  <a href="#styling"><h2 id="styling">Styling</h2></a>
+  <p>Is it too small or bland? Let's add some CSS!</p>
+  <pre><code>&lt;style&gt;
+c-marquee {
+  background: #999;
+}
+
+/* For styling the text element. */
+c-marquee > [slot] {
+  font-weight: bold;
+  font-family: sans-serif;
+  font-size: 1.2em;
+  padding: 0.5em;
+}
+&lt;/style&gt;
+
+&lt;c-marquee&gt;
+  &lt;span slot="text"&gt;Some Text&lt;/span&gt;
+&lt;/c-marquee&gt;
+
+&lt;script&gt;<button class="expand-js-btn">...</button>&lt;/script&gt;</code></pre>
+  <style>
+    c-marquee:not([class]) {
+      background: #999;
+      & > [slot] {
+        font-weight: bold;
+        font-family: sans-serif;
+        font-size: 1.2em;
+        padding: 0.5em;
+      }
+    }
+  </style>
+  <c-marquee>
+    <span slot="text">Some Text</span>
+  </c-marquee>
   <a href="#duration"><h2 id="duration">Duration</h2></a>
   <p>Is it too fast? You can adjust the duration of each loop by adding <code>duration</code> attribute to the component.
     <code>duration</code> attribute accepts milliseconds only.</p>
-  <pre><code>&lt;c-marquee duration="10000"&gt;
+  <pre><code>&lt;style&gt;<button class="expand-css-btn">...</button>&lt;/style&gt;
+
+&lt;c-marquee duration="10000"&gt;
   &lt;span slot="text"&gt;Some Text&lt;/span&gt;
 &lt;/c-marquee&gt;
-&lt;script&gt;<button class="expand-btn">...</button>&lt;/script&gt;</code></pre>
+
+&lt;script&gt;<button class="expand-js-btn">...</button>&lt;/script&gt;</code></pre>
   <p>And the result:</p>
   <c-marquee duration="10000">
     <span slot="text">Some Text</span>
@@ -95,10 +133,13 @@ document.querySelector("c-marquee").state;
   <p>To direct the text to move in other directions, you will have to use <code>direction</code> attribute.
     The <code>direction</code> attribute currently has four values: <code>left</code>, <code>right</code>, <code>up</code> and <code>down</code>.
     Default value is <code>left</code>.</p>
-  <pre><code>&lt;c-marquee direction="right"&gt;
+  <pre><code>&lt;style&gt;<button class="expand-css-btn">...</button>&lt;/style&gt;
+
+&lt;c-marquee direction="right"&gt;
   &lt;span slot="text"&gt;Some Text&lt;/span&gt;
 &lt;/c-marquee&gt;
-&lt;script&gt;<button class="expand-btn">...</button>&lt;/script&gt;</code></pre>
+
+&lt;script&gt;<button class="expand-js-btn">...</button>&lt;/script&gt;</code></pre>
   <p>Result:</p>
   <c-marquee direction="right">
     <span slot="text">Some Text</span>
@@ -107,25 +148,31 @@ document.querySelector("c-marquee").state;
   <p>The start position is defined via the <code>start-position</code> attribute. There are only two values: <code>offset</code> and <code>center</code>.
     <code>offset</code> is the default value and it will move the text out of the sight before text starts moving.
     When <code>center</code> is used as the value, the text will start from the middle.</p>
-  <pre><code>&lt;c-marquee start-position="center"&gt;
+  <pre><code>&lt;style&gt;<button class="expand-css-btn">...</button>&lt;/style&gt;
+
+&lt;c-marquee start-position="center"&gt;
   &lt;span slot="text"&gt;Some Text&lt;/span&gt;
 &lt;/c-marquee&gt;
-&lt;script&gt;<button class="expand-btn">...</button>&lt;/script&gt;</code></pre>
+
+&lt;script&gt;<button class="expand-js-btn">...</button>&lt;/script&gt;</code></pre>
   <p>Result of the code (don't forget to reload the page): </p>
   <c-marquee start-position="center">
     <span slot="text">Some Text</span>
   </c-marquee>
   <a href="#delay"><h2 id="delay">Delay</h2></a>
   <p>It is possible to create a delay between each loop by using the <code>delay</code> attribute. Value should be in milliseconds and default value is 0.</p>
-  <pre><code>&lt;c-marquee delay="3000"&gt;
+  <pre><code>&lt;style&gt;<button class="expand-css-btn">...</button>&lt;/style&gt;
+
+&lt;c-marquee delay="3000"&gt;
   &lt;span slot="text"&gt;Some Text&lt;/span&gt;
 &lt;/c-marquee&gt;
-&lt;script&gt;<button class="expand-btn">...</button>&lt;/script&gt;</code></pre>
+
+&lt;script&gt;<button class="expand-js-btn">...</button>&lt;/script&gt;</code></pre>
   <c-marquee delay="3000">
     <span slot="text">Some Text</span>
   </c-marquee>
-  <a href="#styling"><h2 id="styling">Styling</h2></a>
-  <p>Styling is the main part. It is actually not that difficult.</p>
+  <a href="#examples"><h2 id="examples">Examples</h2></a>
+  <p>Examples to demonstrate the power of <code>CustomMarquee</code>.</p>
   <pre><code>&lt;style&gt;
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 c-marquee {
@@ -135,7 +182,6 @@ c-marquee {
   box-shadow: inset 0 0 8px 0 black;
 }
 
-/* For styling the text element. */
 c-marquee > [slot] {
   font-weight: bold;
   font-size: 2rem;
@@ -145,10 +191,12 @@ c-marquee > [slot] {
   backdrop-filter: blur(10px);
 }
 &lt;/style&gt;
+
 &lt;c-marquee duration="7000" start-position="center" direction="right"&gt;
   &lt;span slot="text"&gt;Styling is the main part&lt;/span&gt;
 &lt;/c-marquee&gt;
-&lt;script&gt;<button class="expand-btn">...</button>&lt;/script&gt;</code></pre>
+
+&lt;script&gt;<button class="expand-js-btn">...</button>&lt;/script&gt;</code></pre>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
     .adding-a-class-so-that-other-elements-are-not-affected {
@@ -169,6 +217,55 @@ c-marquee > [slot] {
   <c-marquee class="adding-a-class-so-that-other-elements-are-not-affected" duration="7000" start-position="center" direction="right">
     <span slot="text">Styling is the main part</span>
   </c-marquee>
+  <p>A progress bar made by using JavaScript.</p>
+  <pre><code>&lt;style&gt;<button class="expand-css-btn">...</button>
+c-marquee > [slot] {
+  font-family: monospace;
+}
+&lt;/style&gt;
+
+&lt;c-marquee duration="10000" direction="right"&gt;
+  &lt;span slot="text"&gt;Current progress: &amp;nbsp;&amp;nbsp;0%&lt;/span&gt;
+&lt;/c-marquee&gt;
+
+&lt;script&gt;
+let marqueeTextElement = document.querySelector("c-marquee");
+let marqueeElement = marqueeTextElement.parentElement;
+
+let f = setInterval(() => {
+  const direction = marqueeElement.direction;
+  let progress = 0;
+
+  if(direction == 'left' || direction == 'right') progress = (+marqueeTextElement.style.left.slice(0, -2) + marqueeTextElement.offsetWidth) * 100 / (marqueeElement.offsetWidth + marqueeTextElement.offsetWidth);
+  else if(direction == 'up' || direction == 'down') progress = (+marqueeTextElement.style.top.slice(0, -2) + marqueeTextElement.offsetHeight) * 100 / (marqueeElement.offsetHeight + marqueeTextElement.offsetHeight);
+  progress = parseInt(progress).toString();
+
+  marqueeTextElement.style.background = `linear-gradient(to right, cyan ${progress}%, #666 0%)`;
+  // "\u00A0".repeat(3 - progress.length) is to keep marqueeTextElement steady
+  marqueeTextElement.innerHTML = "Current progress: " + "\u00A0".repeat(3 - progress.length) + progress + "%";
+}, 10);
+<button class="expand-js-btn">...</button>&lt;/script&gt;</code></pre>
+  <style>
+    #example-2 > [slot] {
+      font-family: monospace;
+    }
+  </style>
+  <c-marquee id="example-2" duration="10000" direction="right">
+    <span slot="text">Current progress: &nbsp;&nbsp;0%</span>
+  </c-marquee>
+  <script>
+    let example2TextElem = document.querySelector("#example-2 > [slot]");
+    let example2Elem = example2TextElem.parentElement;
+    let f = setInterval(() => {
+      const direction = example2Elem.direction;
+      let progress = 0;
+      if(direction == 'left' || direction == 'right') progress = (+example2TextElem.style.left.slice(0, -2) + example2TextElem.offsetWidth) * 100 / (example2Elem.offsetWidth + example2TextElem.offsetWidth);
+      else if(direction == 'up' || direction == 'down') progress = (+example2TextElem.style.top.slice(0, -2) + example2TextElem.offsetHeight) * 100 / (example2Elem.offsetHeight + example2TextElem.offsetHeight);
+      progress = parseInt(progress).toString();
+      example2TextElem.style.background = `linear-gradient(to right, cyan ${progress}%, #666 0%)`;
+      example2TextElem.innerHTML = "Current progress: " + "\u00A0".repeat(3 - progress.length) + progress + "%";
+    }, 10);
+  </script>
 </body>
 <script>
   // To start all marquees
@@ -183,16 +280,30 @@ c-marquee > [slot] {
   if(window.location.hash !== '') {
     document.querySelector(`a[href='${window.location.hash}']`).scrollIntoView({ behavior: "smooth" });
   }
-  document.querySelectorAll(".expand-btn").forEach(elem => {
+  document.querySelectorAll(".expand-js-btn").forEach(elem => {
     elem.onclick = () => {
       elem.outerHTML = `
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelector("c-marquee").start();
 });
 `;
-      elem.setAttribute("disabled", true);
-      elem.style.border = "none";
-      elem.style.cursor = "text";
+    }
+  });
+  document.querySelectorAll(".expand-css-btn").forEach(elem => {
+    elem.onclick = () => {
+      elem.outerHTML = `
+c-marquee {
+  background: #999;
+}
+
+/* For styling the text element. */
+c-marquee > [slot] {
+  font-weight: bold;
+  font-family: sans-serif;
+  font-size: 1.2em;
+  padding: 0.5em;
+}
+`;
     }
   });
 </script>

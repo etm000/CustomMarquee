@@ -13,6 +13,7 @@ body {
 
 c-marquee {
   font-family: serif;
+  margin: 0.5em 0;
 }
 
 h1,
@@ -56,7 +57,9 @@ a > *[id]:hover::before {
 }
 
 code > button {
-  appearance: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   background-color: transparent;
   cursor: pointer;
   font-family: inherit;
@@ -88,5 +91,6 @@ button:hover {
   justify-content: center;
   align-items: center;
   margin-top: 0.5em;
-  column-gap: 0.3em;
+  -moz-column-gap: 0.3em;
+       column-gap: 0.3em;
 }

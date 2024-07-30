@@ -8,7 +8,7 @@ export class CustomMarquee extends LitElement {
     direction: {type: String},
     startPos: {type: String, attribute: "start-position"},
     duration: {type: Number},
-    delay: {type: Number},
+    delay: {type: Number}
   };
 
   #movingElem;
